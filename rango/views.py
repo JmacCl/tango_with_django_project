@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rango.models import Category
 from rango.models import Page
+from rango.forms import CategoryForm
+from django.shortcuts import redirect
+
 
 def index(request):
 
@@ -29,6 +32,23 @@ def show_category(request, category_name_slug):
 		context_dict['category'] = None
 		context_dict['pages'] = None
 	return render(request, 'rango/category.html', context = context_dict)
+
+def add_category(request):
+	form = CategoryForm()
+
+	# A http Post
+	if requested.method == 'POST':
+		form = CategoryForm(request.POST)
+
+		if form.is_valid():
+			for.save(commit = True)
+
+			return redirect('/rango/')
+		else:
+			print(form.errors)
+
+	return render(request, 'rango/add_category.html' {'form':form})
+
 
 def about(request):
 	return render(request, 'rango/about.html')
