@@ -37,17 +37,17 @@ def add_category(request):
 	form = CategoryForm()
 
 	# A http Post
-	if requested.method == 'POST':
+	if request.method == 'POST':
 		form = CategoryForm(request.POST)
 
 		if form.is_valid():
-			for.save(commit = True)
+			form.save(commit = True)
 
 			return redirect('/rango/')
 		else:
 			print(form.errors)
 
-	return render(request, 'rango/add_category.html' {'form':form})
+	return render(request, 'rango/add_category.html',{'form':form})
 
 
 def about(request):
