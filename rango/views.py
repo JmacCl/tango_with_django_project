@@ -14,17 +14,25 @@ def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
     page_list = Page.objects.order_by('-views')[:5]
 
-
     context_dict = {}
-    context_dict['pages'] = page_list
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
     context_dict['categories'] = category_list
+    context_dict['pages'] = page_list
 
-    visitor_cookie_handeler(request)
-    context_dict['visits'] = request.session['visits']
+    visitor_cookie_handler(request)
 
     response = render(request, 'rango/index.html', context=context_dict)
     return response
+
+def about(request):
+    context_dict = {}
+    print(request.method)
+    print(request.user)
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    response = render(request, 'rango/about.html', context_dict)
+    return response
+
 
 def show_category(request, category_name_slug):
     context_dict = {}
@@ -88,14 +96,6 @@ def add_page(request, category_name_slug):
     context_dict = {'form': form, 'category': category}
     return render(request, 'rango/add_page.html', context=context_dict)
 
-
-def about(request):
-    print(request.method)
-    print(request.user)
-    #if request.session.test_cookie_worked():
-    #    print("TEST COOKIE WORKED!")
-    #    request.session.delete_test_cookie()
-    return render(request, 'rango/about.html', {})
 
 
 def register(request):
